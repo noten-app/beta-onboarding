@@ -1,0 +1,15 @@
+Noten-App Beta
+
+You have been accepted for the Noten-App Beta!
+
+Thank you for your interest in the Noten-App Beta. After the transfer, you will be able to use the beta version of the Noten-App. You can find it under beta.noten-app.de.
+
+After transferring your account to the beta, you CANNOT transfer back!
+
+Warning, the beta version is not yet fully developed and may contain bugs. If you find a bug, please report it to us at support.noten-app.de.
+
+Transfer Account to Beta using the following link: https://onboarding.beta.noten-app.de/onboard/?token=TRANSFERLINK
+
+If you have any questions, please contact us at support.noten-app.de!
+
+Your Noten-App Team

@@ -73,4 +73,43 @@ $beta_con->close();
 // Check auto-accept
 if ($settings["accept_immediately"]) {
 
+    // Send email
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings
+        $mail->SMTPDebug  = SMTP::DEBUG_SERVER;                         //Enable verbose debug output
+        $mail->isSMTP();                                                //Send using SMTP
+        $mail->Host       = $settings["mail"]["host"];                  //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                       //Enable SMTP authentication
+        $mail->Username   = $settings["mail"]["username"];              //SMTP username
+        $mail->Password   = $settings["mail"]["password"];              //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                //Enable implicit TLS encryption
+        $mail->Port       = 465;                                        //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+        // Recipients
+        $mail->setFrom($settings["mail"]["sender_mail"], $settings["mail"]["sender_name"]);
+        $mail->addAddress($email, $displayname);                        //Add a recipient
+
+        // Content
+        $mail->isHTML(true);                                            //Set email format to HTML
+        $mail->Subject = 'Login Reset';
+        // $mail->Body    = 'Someone requested that the password be reset for the following Noten-App.de Account:<br>Username: <b>' . $displayname . '</b><br>If this was a mistake, just ignore this email and nothing will happen.<br><br><br>Your new Password is: ' . $password . '<br><p style="font-weight: bold;color:red;">Please change it inside the App</p><br><br>Thank You';
+        // $mail->AltBody = 'Someone requested that the password be reset for the following Noten-App.de Username: ' . $displayname . 'If this was a mistake, just ignore this email and nothing will happen.Your new Password is: ' . $password . ' Please change it in the app! Thank You';
+
+        // Content from /mails/apply.html
+        $mail->Body       = str_replace("TRANSFERLINK", $token, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/mails/apply.html"));
+        $mail->AltBody    = str_replace("TRANSFERLINK", $token, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/mails/apply.txt"));
+
+        // Disable debugging
+        $mail->SMTPDebug = false;
+
+        // Send mail
+        $mail->send();
+
+        // Redirect to login
+        header("Location: /success.html");
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
 }
