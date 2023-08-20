@@ -62,6 +62,13 @@ if ($stmt = $prod_con->prepare("SELECT id,displayname,username,password,account_
     $stmt->close();
 } else exit("Error with the Database");
 
+// Set password to "beta-user" to disable the account
+if ($stmt = $prod_con->prepare("UPDATE " . $settings["database_tables"]["config_table_name_accounts"] . " SET password = 'beta-user' WHERE id = ?")) {
+    $stmt->bind_param("s", $accounts_data["id"]);
+    $stmt->execute();
+    $stmt->close();
+} else exit("Error with the Database");
+
 // Table "classes" (=> "subjects") - multiple rows
 $subjects_data = array();
 if ($stmt = $prod_con->prepare("SELECT * FROM " . $settings["database_tables"]["config_table_name_classes"] . " WHERE user_id = ?")) {
