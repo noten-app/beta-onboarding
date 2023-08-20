@@ -79,7 +79,6 @@ $stmt = mysqli_prepare($beta_con, "INSERT INTO onboarding (email, state, token) 
 $stmt->bind_param("sis", $email, $state, $token);
 $stmt->execute();
 $stmt->close();
-$beta_con->close();
 
 // Check auto-accept
 if ($settings["accept_immediately"]) {
@@ -116,8 +115,16 @@ if ($settings["accept_immediately"]) {
         // Send mail
         $mail->send();
 
-        // Redirect to login
-        header("Location: /success.html");
+        // Set state to 1
+        if ($stmt = $beta_con->prepare("UPDATE " . $settings["database_tables"]["config_table_name_onboarding"] . " SET state = 2 WHERE token = ?")) {
+            $stmt->bind_param("s", $req_token);
+            $stmt->execute();
+            $stmt->close();
+            $beta_con->close();
+
+            // Redirect to login
+            header("Location: /success.html");
+        } else exit("Error with the Database");
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
