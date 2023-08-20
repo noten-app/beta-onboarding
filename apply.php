@@ -10,9 +10,13 @@ require $_SERVER["DOCUMENT_ROOT"] . "/res/php/PHPMailer-master/src/PHPMailer.php
 require $_SERVER["DOCUMENT_ROOT"] . "/res/php/PHPMailer-master/src/SMTP.php";
 
 // Get email
-$email = $_POST["email"];
-if (!isset($email)) exit("No email provided");
+if (!isset($_POST["email"])) exit("No email provided, redirecting soon... <script>window.setTimeout(()=>location.assign('/'),3000);</script>");
+else $email = $_POST["email"];
 if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) exit("Invalid email");
+
+// Get password
+if (!isset($_POST["password"])) exit("No password provided, redirecting soon... <script>window.setTimeout(()=>location.assign('/'),3000);</script>");
+else $password = $_POST["password"];
 
 // Get config
 require($_SERVER["DOCUMENT_ROOT"] . "/config.php");
@@ -27,12 +31,19 @@ $prod_con = mysqli_connect(
 if (mysqli_connect_errno()) exit("Error with the Database");
 
 // Check if email has a registered account
-$stmt = mysqli_prepare($prod_con, "SELECT * FROM " . $settings["database_tables"]["config_table_name_accounts"] . " WHERE email = ?");
+$stmt = mysqli_prepare($prod_con, "SELECT password FROM " . $settings["database_tables"]["config_table_name_accounts"] . " WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
-$result = $stmt->get_result();
-if ($result->num_rows == 0) exit("No account with this email found - You need to have a registered account to apply for the beta");
+$stmt->store_result();
+$stmt->bind_result($password_hash);
+$stmt->fetch();
+
+// Check if email exists
+if ($stmt->num_rows == 0) exit("No account with this email found - You need to have a registered account to apply for the beta");
 $prod_con->close();
+
+// Check if password is correct
+if (!password_verify($password, $password_hash)) exit("Wrong password, redirecting soon... <script>window.setTimeout(()=>location.assign('/'),3000);</script>");
 
 // DB Connection
 $beta_con = mysqli_connect(
