@@ -1,0 +1,110 @@
+:root {
+    --text-color: #ffffff;
+    --text2-color: #cccccc;
+    --text-light: #222222;
+    --background-color: #282c36;
+    --background2-color: #181c26;
+    --background3-color: #0f111a;
+    --accent-color: #eb660e;
+    --accent2-color: #f2a900;
+    --navbar-height: 5rem;
+}
+
+html,
+body {
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    transition: 0;
+    font-size: 100%;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "Inter";
+    scroll-behavior: smooth;
+    transition: 0.25s;
+}
+
+body {
+    display: grid;
+    place-content: center;
+}
+
+.content {
+    max-width: 400px;
+    background-color: var(--background2-color);
+    min-height: 100%;
+    border-radius: 1.5rem;
+    padding: 0.5rem;
+    position: relative;
+}
+
+.content img {
+    max-width: calc(400px - 1rem);
+    border-radius: 1rem 1rem 0 0;
+}
+
+.logo {
+    height: 150px;
+}
+
+.text {
+    z-index: 5;
+    position: relative;
+    top: 0;
+}
+
+.gradient {
+    z-index: 3;
+    inset: 0;
+    position: absolute;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(24, 28, 38, 1) 40%, rgba(24, 28, 38, 1) 100%);
+    border-radius: 2rem;
+}
+
+.form form {
+    display: grid;
+    grid-template-columns: 7fr 3fr;
+    grid-template-rows: 1fr;
+    gap: 0.25rem;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "form-email form-submit";
+}
+
+input {
+    border: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+}
+
+#form-email {
+    grid-area: form-email;
+    text-align: right;
+    border-bottom-left-radius: 1rem;
+}
+
+#form-submit {
+    grid-area: form-submit;
+    text-align: left;
+    border-bottom-right-radius: 1rem;
+}
+
+#form-submit:hover {
+    background-color: var(--accent2-color);
+    color: #000000;
+    cursor: pointer;
+}
+
+.colorize {
+    color: var(--accent-color);
+}
