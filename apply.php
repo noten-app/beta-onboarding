@@ -104,9 +104,7 @@ if ($settings["accept_immediately"]) {
 
         // Content
         $mail->isHTML(true);                                            //Set email format to HTML
-        $mail->Subject = 'Login Reset';
-        // $mail->Body    = 'Someone requested that the password be reset for the following Noten-App.de Account:<br>Username: <b>' . $displayname . '</b><br>If this was a mistake, just ignore this email and nothing will happen.<br><br><br>Your new Password is: ' . $password . '<br><p style="font-weight: bold;color:red;">Please change it inside the App</p><br><br>Thank You';
-        // $mail->AltBody = 'Someone requested that the password be reset for the following Noten-App.de Username: ' . $displayname . 'If this was a mistake, just ignore this email and nothing will happen.Your new Password is: ' . $password . ' Please change it in the app! Thank You';
+        $mail->Subject = 'Noten-App | Beta Application';
 
         // Content from /mails/apply.html
         $mail->Body       = str_replace("TRANSFERLINK", $token, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/mails/apply.html"));
