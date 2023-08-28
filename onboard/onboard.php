@@ -122,8 +122,8 @@ if (mysqli_connect_errno()) exit("Error with the Database");
 //
 
 // Table "accounts"
-if ($stmt = $beta_con->prepare("INSERT INTO " . $settings["database_tables"]["config_table_name_accounts"] . " (id,displayname,username,password,email,account_creation,account_version,delete_until,rounding,sorting,gradesystem) VALUES (?,?,?,?,?,?,?,?,?,?,?)")) {
-    $stmt->bind_param("sssssssssss", $accounts_data["id"], $accounts_data["displayname"], $accounts_data["username"], $accounts_data["password"], $email, $accounts_data["account_creation"], $accounts_data["account_version"], $accounts_data["delete_until"], $accounts_data["rounding"], $accounts_data["sorting"], $accounts_data["gradesystem"]);
+if ($stmt = $beta_con->prepare("INSERT INTO " . $settings["database_tables"]["config_table_name_accounts"] . " (id,displayname,username,password,email,account_creation,account_version,delete_until,rounding,sorting,gradesystem) VALUES (?,?,?,?,?,?,4,?,?,?,?)")) {
+    $stmt->bind_param("ssssssssss", $accounts_data["id"], $accounts_data["displayname"], $accounts_data["username"], $accounts_data["password"], $email, $accounts_data["account_creation"], $accounts_data["delete_until"], $accounts_data["rounding"], $accounts_data["sorting"], $accounts_data["gradesystem"]);
     $stmt->execute();
     $stmt->close();
 } else exit("Error with the Database");
